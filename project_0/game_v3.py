@@ -11,18 +11,24 @@ def random_predict(number:int=1) -> int:
     """
 
     count = 0
+    num_min = 0  
+    num_max = 100   
 
     while True:
-        count += 1
-        predict_number = np.random.randint(1, 101) # предполагаемое число
-        if number == predict_number:
-            break # выход из цикла, если угадали
-         
+        count += 1  
+        predict_number = round((num_min + num_max)/2)  # предполагаемое число
+        if number > predict_number:
+            num_min = predict_number
+        elif number < predict_number:
+            num_max = predict_number
+        else:           
+            break # выход из цикла, если угадали         
     return(count)
 
 
 def score_game(random_predict) -> int:
-    """За какое количество попыток в среднем из 1000 подходов угадывает наш алгоритм
+    """За какое количество попыток в среднем 
+    из 1000 подходов угадывает наш алгоритм
 
     Args:
         random_predict ([type]): функция угадывания
@@ -33,7 +39,7 @@ def score_game(random_predict) -> int:
 
     count_ls = [] # список для сохранения количества попыток
     np.random.seed(1) # фиксируем сид для воспроизводимости
-    random_array = np.random.randint(1, 101, size=(1000)) # загадали список чисел
+    random_array = np.random.randint(1, 101, size=(1000)) # загадываем числа
 
     for number in random_array:
         count_ls.append(random_predict(number))
